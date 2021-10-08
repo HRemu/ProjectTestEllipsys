@@ -67,19 +67,20 @@ public class DatabaseConnection {
 	}
 	
 	// Fonction pour créer une nouvelle table faisant la correspondance entre des valeurs et un index
-	public void createIndexTable(String NewTable, String collumn) {
+	public int createIndexTable(String NewTable, String collumn) {
 		try {
 			Statement stmt = conn.createStatement();
 			String query = "CREATE TABLE IF NOT EXISTS "+NewTable+" ( "
 					+ "id INTEGER PRIMARY KEY,"
-					+ collumn +" TEXT NOT NULL UNIQUE"
+					+ "champ TEXT NOT NULL UNIQUE"
 					+ ");";
 					
-			 stmt.execute(query);
-			// Le resultat de la requette est mis dans une liste.
+			 int retVal = stmt.executeUpdate(query);
+			 return retVal;
 			} catch (SQLException e) {
 			// En cas d'exception on renvois un objet null.
 			e.printStackTrace();
+			return -1;
 		}
 	}
 	
@@ -88,7 +89,7 @@ public class DatabaseConnection {
 	public int InsertIndexTable(String table, ArrayList<String> values,String valueName) {
 		
 		try {
-			String sql = "INSERT INTO "+table+" ("+valueName+") VALUES (?)";
+			String sql = "INSERT INTO "+table+" (champ) VALUES (?)";
 			 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int rowsInserted =0;
@@ -120,14 +121,20 @@ public class DatabaseConnection {
 	public void createTableRed(String originalTableName, ArrayList<String> collumnList, ArrayList<String> newTable) {
 		try {
 			Statement stmt = conn.createStatement();
-			String query = "CREATE TABLE IF NOT EXISTS "+originalTableName+"_red ( ";
+			String query = "CREATE TABLE IF NOT EXISTS "+originalTableName+"_red AS "
+					+ "SELECT ";
+			int i = 0;
+			for (i=0; i< newTable.size()-1; i++) {
+				query += newTable.get(i)+".id as "+collumnList.get(i)+" , ";
+			}
 			
-			for (int i= 0; i< collumnList.size(); i++) {
-				query += collumnList.get(i) + " int,";
+			query += newTable.get(i)+".id as "+collumnList.get(i) +""
+					+ " FROM "+ originalTableName +" " ;
+			for (i=0; i< newTable.size(); i++) {
+				query += " JOIN " + newTable.get(i)+ " ON "+ newTable.get(i)+".champ == " + originalTableName+"."+ collumnList.get(i) ;
 			}
-			for (int i= 0; i< newTable.size(); i++) {
-				query += "FOREIGN KEY ("+collumnList.get(i)+") REFERENCES "+newTable.get(i) + "(id),";
-			}
+			
+			System.out.println(query);
 			 stmt.execute(query);
 			// Le resultat de la requette est mis dans une liste.
 			} catch (SQLException e) {
