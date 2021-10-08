@@ -86,11 +86,11 @@ public class DatabaseConnection {
 	
 	// TO DO améliorer vitesse ?
 	// Fonction qui permet d'inserer toutes les valeurs d'une liste dans une table d'index.
-	public int InsertIndexTable(String table, ArrayList<String> values,String valueName) {
+	public int InsertIndexTable(String table, ArrayList<String> values) {
 		
 		try {
 			String sql = "INSERT INTO "+table+" (champ) VALUES (?)";
-			 
+			conn.setAutoCommit(false);
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int rowsInserted =0;
 			for (int i=0; i<values.size();i++) {
@@ -100,9 +100,11 @@ public class DatabaseConnection {
 			
 			
 			if (rowsInserted == values.size()) {
+				conn.commit();
 			    return 1;
 			}
 			else {
+				conn.rollback();
 				return 0;
 			}
 		} catch (SQLException e) {

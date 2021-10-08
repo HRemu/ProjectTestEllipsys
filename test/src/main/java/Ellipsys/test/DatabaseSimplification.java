@@ -23,7 +23,7 @@ public class DatabaseSimplification {
 		ArrayList<String> elements = database.findDistinctValues(originalTableName, collumn);
 		String NewTable = originalTableName+"_"+collumn+"_lkp";
 		database.createIndexTable(NewTable, collumn);
-		int returncode = database.InsertIndexTable(NewTable, elements, collumn);
+		int returncode = database.InsertIndexTable(NewTable, elements);
 		if (returncode ==1){
 			return NewTable;
 		}
