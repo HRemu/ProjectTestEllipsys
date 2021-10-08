@@ -3,6 +3,7 @@ package Ellipsys.test;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -87,9 +88,33 @@ public class DatabaseConnection {
 		}
 	}
 	
-	// TO DO 
+	// TO DO améliorer vitesse ?
 	// Fonction qui permet d'inserer toutes les valeurs d'une liste dans une table d'index.
-	public void InsertIndexTable(String table, ArrayList values) {
+	public int InsertIndexTable(String table, ArrayList<String> values,String valueName) {
+		
+		try {
+			String sql = "INSERT INTO "+table+" ("+valueName+") VALUES (?)";
+			 
+			PreparedStatement statement = conn.prepareStatement(sql);
+			int rowsInserted =0;
+			for (int i=0; i<values.size();i++) {
+				statement.setString(1, values.get(i));
+				rowsInserted +=  statement.executeUpdate();
+			}
+			
+			
+			if (rowsInserted == values.size()) {
+			    return 1;
+			}
+			else {
+				return 0;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+		 
 		
 	}
 	
