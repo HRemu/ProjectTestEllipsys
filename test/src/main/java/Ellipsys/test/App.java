@@ -12,9 +12,10 @@ public class App
 {
     public static void main( String[] args ) throws SQLException
     {
-        DatabaseConnection database = new DatabaseConnection("jdbc:sqlite:ellipsys_test_db.db3");
     	
+        DatabaseSimplification simple = new DatabaseSimplification("jdbc:sqlite:ellipsys_test_db.db3","oa_trf_src");
         
+        //simple.createTableRed(collumnList);
     	
     }
 }
