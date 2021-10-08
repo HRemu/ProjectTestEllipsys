@@ -101,10 +101,14 @@ public class DatabaseConnection {
 			
 			if (rowsInserted == values.size()) {
 				conn.commit();
+				conn.setAutoCommit(true);
+
 			    return 1;
 			}
 			else {
 				conn.rollback();
+				conn.setAutoCommit(true);
+
 				return 0;
 			}
 		} catch (SQLException e) {
@@ -136,7 +140,6 @@ public class DatabaseConnection {
 				query += " JOIN " + newTable.get(i)+ " ON "+ newTable.get(i)+".champ == " + originalTableName+"."+ collumnList.get(i) ;
 			}
 			
-			System.out.println(query);
 			 stmt.execute(query);
 			// Le resultat de la requette est mis dans une liste.
 			} catch (SQLException e) {

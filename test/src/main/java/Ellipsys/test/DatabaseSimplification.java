@@ -38,6 +38,7 @@ public class DatabaseSimplification {
 		ArrayList<String> tableCreated = new ArrayList<String>();
 		
 		for (int i=0; i< collumnList.size();i++) {
+			System.out.println(i);
 			String tableName = createIndexTable(collumnList.get(i));
 			tableCreated.add(tableName);
 		}
@@ -50,8 +51,7 @@ public class DatabaseSimplification {
 		ArrayList<String> newTable = createAllIndexTable(collumnList);
 		
 		database.createTableRed(originalTableName, collumnList, newTable);
-		
-		database.fillTableRed(originalTableName, collumnList,newTable);
+		System.out.println("done");
 	}
 	
 }

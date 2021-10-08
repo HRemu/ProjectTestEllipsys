@@ -22,17 +22,10 @@ public class App
     	collones.add("impact");
 
 		String originalTableName= "oa_trf_src";
-		ArrayList<String> tableCreated = new ArrayList<String>();
-		tableCreated.add("oa_trf_src_id_lkp");
-		tableCreated.add("oa_trf_src_trf_lkp");
-		tableCreated.add("oa_trf_src_tgtTb_lkp");
-		tableCreated.add("oa_trf_src_tgtLab_lkp");
-		tableCreated.add("oa_trf_src_srcTb_lkp");
-		tableCreated.add("oa_trf_src_srcLab_lkp");
-		tableCreated.add("oa_trf_src_impact_lkp");
+		
     
 		
-        DatabaseSimplification simple = new DatabaseSimplification("jdbc:sqlite:ellipsys_test_db.db3","oa_trf_src");
+        DatabaseSimplification simple = new DatabaseSimplification("jdbc:sqlite:ellipsys_test_db.db3",originalTableName);
 		
         simple.createTableRed(collones);
     	
