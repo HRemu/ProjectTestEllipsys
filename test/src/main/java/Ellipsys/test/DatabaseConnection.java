@@ -87,6 +87,13 @@ public class DatabaseConnection {
 		}
 	}
 	
+	// TO DO 
+	// Fonction qui permet d'inserer toutes les valeurs d'une liste dans une table d'index.
+	public void InsertIndexTable(String table, ArrayList values) {
+		
+	}
+	
+	
 	// Fonction pour créer la table finale avec index
 	public void createTableFromTable() {}
 	
