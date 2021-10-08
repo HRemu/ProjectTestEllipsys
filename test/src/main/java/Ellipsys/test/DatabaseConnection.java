@@ -114,12 +114,30 @@ public class DatabaseConnection {
 	}
 	
 	
-	
-	public void createTableRed(ArrayList<String> collumnList, ArrayList<String> newTable) {
-		// TODO Auto-generated method stub
+	// Methode qui créé la table oa_trf_src_red à partir de 
+	// collumnList : liste des noms de collone de la table de base
+	// NewTable : liste des nom de tables d'index liés au collones (doivent être déja créés)
+	public void createTableRed(String originalTableName, ArrayList<String> collumnList, ArrayList<String> newTable) {
+		try {
+			Statement stmt = conn.createStatement();
+			String query = "CREATE TABLE IF NOT EXISTS "+originalTableName+"_red ( ";
+			
+			for (int i= 0; i< collumnList.size(); i++) {
+				query += collumnList.get(i) + " int,";
+			}
+			for (int i= 0; i< newTable.size(); i++) {
+				query += "FOREIGN KEY ("+collumnList.get(i)+") REFERENCES "+newTable.get(i) + "(id),";
+			}
+			 stmt.execute(query);
+			// Le resultat de la requette est mis dans une liste.
+			} catch (SQLException e) {
+			// En cas d'exception on renvois un objet null.
+			e.printStackTrace();
+		}
 		
 	}
 
+	// Methode pour remplir la table _red à partir de la table originale et des tables d'index. 
 	public void fillTableRed(String originalTableName, ArrayList<String> collumnList, ArrayList<String> newTable) {
 		// TODO Auto-generated method stub
 		

@@ -49,7 +49,7 @@ public class DatabaseSimplification {
 	public void createTableRed(ArrayList<String> collumnList) {
 		ArrayList<String> newTable = createAllIndexTable(collumnList);
 		
-		database.createTableRed(collumnList, newTable);
+		database.createTableRed(originalTableName, collumnList, newTable);
 		
 		database.fillTableRed(originalTableName, collumnList,newTable);
 	}
