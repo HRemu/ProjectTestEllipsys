@@ -18,7 +18,6 @@ public class DatabaseConnection {
 	
 	private Connection conn;
 	
-	// Constructeur : cette fonction créé la connection avec la base.
 	public DatabaseConnection(String URL) {
 		try {
 			conn = DriverManager.getConnection(URL);
@@ -31,21 +30,28 @@ public class DatabaseConnection {
 	}
 	
 	
-	// Fonction pour recupérer les noms de collone dans une table
-	// TODO si  possible pour pouvoir généraliser le code a des table avec éventuellement plus de collones
-	public ResultSet findCollumnName(String table) {	
+	// Fonction pour recupérer les noms de collones de la table donné dans une  arraylist.
+	// En cas d'erreur on renvoit un null.
+	public ArrayList<String> findCollumnName(String table) {	
 		try {
 			Statement stmt = conn.createStatement();
-			String query = "";
+			String query = "PRAGMA table_info("+table+");";
+			
 			ResultSet result = stmt.executeQuery(query);
-			return result;
+			ArrayList<String> cols = new ArrayList<String>();
+			while (result.next()) {
+				cols.add(result.getString(2));
+			}
+			
+			return cols;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	// Fonction pour récupérer les différentes valeurs apparaissant dans une collone.
+	// Fonction pour récupérer les différentes valeurs apparaissant dans une collone donnée d'une table donnée dans une arraylist.
+	// En cas d'erreur on renvois null.
 	public ArrayList<String> findDistinctValues(String table, String collumnName) {
 		try {
 			Statement stmt = conn.createStatement();
@@ -66,8 +72,9 @@ public class DatabaseConnection {
 		}
 	}
 	
-	// Fonction pour créer une nouvelle table faisant la correspondance entre des valeurs et un index
-	public int createIndexTable(String NewTable, String collumn) {
+	// Fonction pour créer une nouvelle table de lookup.
+	// les paramêtres d'entrée est le nom a donner à la nouvelle table.
+	public int createIndexTable(String NewTable) {
 		try {
 			Statement stmt = conn.createStatement();
 			String query = "CREATE TABLE IF NOT EXISTS "+NewTable+" ( "
@@ -78,14 +85,17 @@ public class DatabaseConnection {
 			 int retVal = stmt.executeUpdate(query);
 			 return retVal;
 			} catch (SQLException e) {
-			// En cas d'exception on renvois un objet null.
+			// En cas d'exception on renvois -1.
 			e.printStackTrace();
 			return -1;
 		}
 	}
 	
-	// TO DO améliorer vitesse ?
-	// Fonction qui permet d'inserer toutes les valeurs d'une liste dans une table d'index.
+	// Fonction qui permet d'inserer toutes les valeurs d'une liste dans une table de lookup
+	// Les parametres sont : nom de la table de lookup et la liste des valeurs à mettre.
+	// La fonction renvoie : 
+	//	1 en cas de réussite
+	// -1 en cas d'echec.
 	public int InsertIndexTable(String table, ArrayList<String> values) {
 		
 		try {
@@ -109,7 +119,7 @@ public class DatabaseConnection {
 				conn.rollback();
 				conn.setAutoCommit(true);
 
-				return 0;
+				return -1;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -122,6 +132,7 @@ public class DatabaseConnection {
 	
 	
 	// Methode qui créé la table oa_trf_src_red à partir de 
+	// OriginalTableName : nom de la table originale.
 	// collumnList : liste des noms de collone de la table de base
 	// NewTable : liste des nom de tables d'index liés au collones (doivent être déja créés)
 	public void createTableRed(String originalTableName, ArrayList<String> collumnList, ArrayList<String> newTable) {
@@ -149,11 +160,7 @@ public class DatabaseConnection {
 		
 	}
 
-	// Methode pour remplir la table _red à partir de la table originale et des tables d'index. 
-	public void fillTableRed(String originalTableName, ArrayList<String> collumnList, ArrayList<String> newTable) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 

@@ -12,22 +12,16 @@ public class App
 {
     public static void main( String[] args ) throws SQLException
     {
-    	ArrayList<String> collones = new ArrayList<String>();
-    	collones.add("id");
-    	collones.add("trf");
-    	collones.add("tgtTb");
-    	collones.add("tgtLab");
-    	collones.add("srcTb");
-    	collones.add("srcLab");
-    	collones.add("impact");
+    	String URL = "jdbc:sqlite:ellipsys_test_db.db3";
 
 		String originalTableName= "oa_trf_src";
 		
-    
-		
-        DatabaseSimplification simple = new DatabaseSimplification("jdbc:sqlite:ellipsys_test_db.db3",originalTableName);
-		
-        simple.createTableRed(collones);
+		// Commandes pour réduire la table originaTableName de la base de donnée URL.
+       DatabaseSimplification simple = new DatabaseSimplification(URL,originalTableName);
+	
+       simple.createTableRed();
     	
+		
+		
     }
 }
