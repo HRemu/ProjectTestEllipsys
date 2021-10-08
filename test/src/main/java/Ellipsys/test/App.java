@@ -32,14 +32,9 @@ public class App
 		tableCreated.add("oa_trf_src_impact_lkp");
     
 		
-		
-		
-		
-		database.createTableRed( originalTableName,collones, tableCreated) ;
-
         DatabaseSimplification simple = new DatabaseSimplification("jdbc:sqlite:ellipsys_test_db.db3","oa_trf_src");
 		
-        //simple.createTableRed(collumnList);
+        simple.createTableRed(collones);
     	
     }
 }
