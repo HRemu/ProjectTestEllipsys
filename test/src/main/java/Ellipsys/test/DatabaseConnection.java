@@ -30,11 +30,6 @@ public class DatabaseConnection {
         }
 	}
 	
-	// Fonction pour utiliser des requettes précise et afficher le résultat.
-	// Fonction de test.
-	public void CustomQuery(String query) {
-		
-	}
 	
 	// Fonction pour recupérer les noms de collone dans une table
 	// TODO si  possible pour pouvoir généraliser le code a des table avec éventuellement plus de collones
@@ -119,8 +114,16 @@ public class DatabaseConnection {
 	}
 	
 	
-	// Fonction pour créer la table finale avec index
-	public void createTableFromTable() {}
+	
+	public void createTableRed(ArrayList<String> collumnList, ArrayList<String> newTable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void fillTableRed(String originalTableName, ArrayList<String> collumnList, ArrayList<String> newTable) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
